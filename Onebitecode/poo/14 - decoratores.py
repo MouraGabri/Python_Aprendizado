@@ -1,24 +1,21 @@
-from decorator import meu_decorate,upper_case,split_string
-#Exemplo 1
+import time
+import requests
 
-@meu_decorate
-def minha_funcao():
-    print("Dentro da função")
+# Criando um decorator calcular_tempo
+def calcular_tempo(funcao):
+    def wrapper():
+        tempo_inicial = time.time()
+        funcao()
+        tempo_final = time.time()
+        print(f'A duração foi de {tempo_final - tempo_inicial}')
+    return wrapper
 
-minha_funcao()
 
-# Exemplo 2
-@upper_case
-def text():
-    return 'gabriel adão'
+@calcular_tempo # Passando o decorator para calcular o tempo de execução
+def pegar_cotacao_dolar():
+    link = f'https://economia.awesomeapi.com.br/last/USD-BRL'
+    requisicao = requests.get(link)
+    requisicao = requisicao.json()
+    print(requisicao['USDBRL']['bid'])
 
-print(text())
-
-# Exemplo 3
-@split_string
-@upper_case
-def text_1():
-    return 'aprendendo python e decoratores'
-
-print(text_1())
- 
+pegar_cotacao_dolar()    
