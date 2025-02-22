@@ -46,14 +46,16 @@ def operacao_de_saque():
         escolha = int(input('Escolha uma das Opções:\n[1] - Depositar Dinheiro\n[2] - Sacar Dinheiro\n[3] - Sair\nEscolha:'))
         if escolha == 1:
             valor_deposito = float(input('Informe o valor para deposito:'))
-            conta_bancaria_cliente.depositar_dinheiro(valor_deposito)    
+            conta_bancaria_cliente.depositar_dinheiro(valor_deposito)
+
         elif escolha == 2:
             if conta_bancaria_cliente.saldo == 0:
                 print('Você não possui nenhum saldo. Deposite primeiro')
                 valor_deposito = float(input('Informe o valor para deposito:'))
                 conta_bancaria_cliente.depositar_dinheiro(valor_deposito)
-            valor_saque = float(input('Informe o valor para sacar:'))
-            conta_bancaria_cliente.sacar_dinheiro(valor_saque)
+            else:    
+                valor_saque = float(input('Informe o valor para sacar:'))
+                conta_bancaria_cliente.sacar_dinheiro(valor_saque)    
         elif escolha == 3:
             exit()
         else:
