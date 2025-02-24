@@ -3,7 +3,6 @@ print('_________________________________________________\n')
 print('     Seja bem vindo ao Restaurante Morramed')
 print('_________________________________________________\n')
 
-
 def cadastrar_cliente():
     tentativas = 0
     tentativas_cadastro = 3
@@ -16,13 +15,14 @@ def cadastrar_cliente():
                 tentativas +=1
                 raise ValueError(f"Informe um nome válido com apenas caracteres do tipo e a cima de 2 caracteres\nTentativas:{tentativas} de {tentativas_cadastro}")
                 break
-            
+
             idade_cliente = input("Idade:")
             if not idade_cliente.isdigit() or len(idade_cliente) <=0:
                 tentativas +=1
                 raise ValueError(f"Informe uma idade válida\nTentativas:{tentativas} de {tentativas_cadastro}")
                 break
             idade_cliente = int(idade_cliente)
+
             cpf_cliente = input("CPF:").strip()
             if not cpf_cliente.isdigit() or  len(cpf_cliente) < 11:
                 tentativas +=1
@@ -35,6 +35,7 @@ def cadastrar_cliente():
                 tentativas +=1
                 raise ValueError(f"Informe um Bairro válido\nTentativas:{tentativas} de {tentativas_cadastro}")
                 break
+
             rua_cliente = input("Rua:").strip().capitalize()
             if not rua_cliente.replace(" ","").isalpha():
                 tentativas +=1
