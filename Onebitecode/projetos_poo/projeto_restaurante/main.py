@@ -64,35 +64,52 @@ def escolher_pedido():
     tentativas_escolha = 3
     while tentativas < tentativas_escolha:
         try:
-            escolha = int(input("Escolha uma das opções:\n[1] - Fazer Pedido\n[2] - Sair do Aplicativo\nOpção:"))
-            if escolha == 1:
+            escolha = input("Escolha uma das opções:\n[1] - Fazer Pedido\n[2] - Sair do Aplicativo\nOpção:")     
+            if escolha == '1':
                 print("Escolher os pratos")
                 Cardapio.cardapio_comida()
-                opcao = input("Escolha um item do cardápio:")
-                Pedido.fazer_pedido_comida(opcao)
-                
-                escola_bebida = input("Deseja incluir bebida:").strip().upper()
-                if escola_bebida == 'SIM':
-                    Cardapio.cardapio_bebida()
-                    opcao = input("Escolha um item do cardápio:")
-                    Pedido.fazer_pedido_bebida(opcao)
-                    
-                #Colocar no dicionario de bebida e commida, uma chave a mais, informando 'nenhum das opções',
-                # para o cliente ter opção de apenas bebida ou apenas comida.(Desenhar um novo fluxo de pedido de comida com as novas opções)
-                    
-                break
-            elif escolha  == 2:
+                opcao_comida = input("Escolha um item do cardápio:")
+                if opcao_comida in Cardapio.dict_comida:
+                    Pedido.fazer_pedido_comida(opcao_comida)
+                    break
+                else:                    
+                    tentativas +=1
+                    Pedido.fazer_pedido_comida(opcao_comida)
+                    raise ValueError(f"Tentativas:{tentativas} de {tentativas_escolha}")        
+
+            elif escolha  == '2':
                 print("Saindo do Sistema..")
                 exit()
             else:
-                print("Informe uma opção válida")
                 tentativas +=1
-                raise ValueError(f"Informe uma número válido\nTentativas:{tentativas} de {tentativas_escolha}")
+                raise ValueError(f"Informe uma número válido\nTentativas:{tentativas} de {tentativas_escolha}")        
         except ValueError as erro:
             print(erro)
+    while tentativas < tentativas_escolha:
+        try:
+            escolha_bebida = input("Deseja incluir bebida(Sim|Não):").strip().upper()
+            if escolha_bebida == 'SIM':
+                Cardapio.cardapio_bebida()
+                opcao_bebida = input("Escolha um item do cardápio:")
+                if opcao_bebida in Cardapio.dict_bebida and opcao_comida == '0' and opcao_bebida == '0':
+                    print('Nenhum prato foi selecionado. Retornando ao menu..')
+                    return escolher_pedido()
+                else:
+                    Pedido.fazer_pedido_bebida(opcao_bebida)
+                    break
+            elif escolha_bebida in ['NÃO','NAO'] and opcao_comida != '0':
+                    print('Apenas tem um prato e não uma bebida')       
+                    break
+            elif escolha_bebida in ['NÃO','NAO'] and opcao_comida == '0':
+                    print('Nenhum prato foi selecionado. Retornando ao menu..')
+                    return escolher_pedido()        
+            else:
+                print()
+                tentativas +=1
+                raise ValueError(f"Informe Apenas (Sim|Não)\nTentativas:{tentativas} de {tentativas_escolha}")        
+        except ValueError as erro:
+            print(erro)       
     if tentativas == tentativas_escolha:
         print("Total de tentativas atingido.\nSaindo do programa ....")
-        exit()
-                    
-            
+        exit()                    
 escolher_pedido()    

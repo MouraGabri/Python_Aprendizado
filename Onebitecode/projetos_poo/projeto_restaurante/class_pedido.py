@@ -13,7 +13,7 @@ class Pedido:
 # Se a chave não for encontrada, o método retorna None (ou o valor padrão, se fornecido).
         chave_prato = Cardapio.dict_comida.get(chave_escolha_prato) # Busca diretamente no dicionário da outra classe
         if chave_prato:                
-            palavra_formatada = re.findall(r'^[^\-]+(?=\s*-)', chave_prato)
+            palavra_formatada = re.findall(r'^[^\-]+(?=\s*-|\s*$)', chave_prato)
                 
             if palavra_formatada:
                 print(f"Prato escolhido: {palavra_formatada[0]}")      
@@ -25,7 +25,7 @@ class Pedido:
     def fazer_pedido_bebida(chave_escolha_bebida):
             chave_escolha_bebida = Cardapio.dict_bebida.get(chave_escolha_bebida) # Busca diretamente no dicionário da outra classe
             if chave_escolha_bebida:                
-                palavra_formatada = re.findall(r'^[^\-]+(?=\s*-)', chave_escolha_bebida)
+                palavra_formatada = re.findall(r'^[^\-]+(?=\s*-|\s*$)', chave_escolha_bebida)
                     
                 if palavra_formatada:
                     print(f"Bebida escolhido: {palavra_formatada[0]}")      
