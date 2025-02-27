@@ -3,6 +3,7 @@ import re
 
 class Pedido:
     
+    @staticmethod
     def fazer_pedido_comida(chave_escolha_prato):
         # O método .get() usa uma tabela hash interna para acessar diretamente o valor associado à chave.
 # A busca é feita de maneira eficiente, em tempo constante, independentemente do tamanho do dicionário.
@@ -21,7 +22,7 @@ class Pedido:
                 print(f"Prato escolhido: {palavra_formatada}")    
         if not chave_prato:
             print('Prato não encontrado')
-
+    @staticmethod
     def fazer_pedido_bebida(chave_escolha_bebida):
             chave_escolha_bebida = Cardapio.dict_bebida.get(chave_escolha_bebida) # Busca diretamente no dicionário da outra classe
             if chave_escolha_bebida:                

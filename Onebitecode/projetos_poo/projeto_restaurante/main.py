@@ -1,63 +1,107 @@
 from class_cliente import Cliente
 from class_cardapio import Cardapio
 from class_pedido import Pedido
+import time
 print('_________________________________________________\n')
 print('     Seja bem vindo ao Restaurante Morramed')
 print('_________________________________________________\n')
 
 def cadastrar_cliente():
-    tentativas = 0
     tentativas_cadastro = 3
-    while tentativas < tentativas_cadastro:
-        try:   
-            print("Informe os seus dados:")
+    
+    tentativas = 0 # Reinicia as tentativas para o próximo campo
+    while tentativas < tentativas_cadastro:    
+        try:    
             nome_cliente = input("Nome:").strip().capitalize()
             if not nome_cliente.replace(" ","").isalpha() or len(nome_cliente) < 3:
                 tentativas +=1
                 raise ValueError(f"Informe um nome válido com apenas caracteres do tipo e a cima de 2 caracteres\nTentativas:{tentativas} de {tentativas_cadastro}")
-                break
+            break   
+        except ValueError as erro:
+            print(erro)
 
+    tentativas = 0
+    while tentativas < tentativas_cadastro:    
+        try:    
             idade_cliente = input("Idade:")
             if not idade_cliente.isdigit() or len(idade_cliente) <=0:
                 tentativas +=1
                 raise ValueError(f"Informe uma idade válida\nTentativas:{tentativas} de {tentativas_cadastro}")
-                break
             idade_cliente = int(idade_cliente)
+            break
+        except ValueError as erro:
+            print(erro)
 
+    tentativas = 0
+    while tentativas < tentativas_cadastro:    
+        try:    
             cpf_cliente = input("CPF:").strip()
             if not cpf_cliente.isdigit() or  len(cpf_cliente) < 11:
                 tentativas +=1
                 raise ValueError(f"Informe um CPF válido\nTentativas:{tentativas} de {tentativas_cadastro}")
-                break
             cpf_cliente = f'{cpf_cliente[0:3]}.{cpf_cliente[3:6]}.{cpf_cliente[6:9]}-{cpf_cliente[9:11]}'
-            
+            break
+        except ValueError as erro:
+            print(erro)
+
+    tentativas = 0
+    while tentativas < tentativas_cadastro:    
+        try:    
             bairro_cliente = input("Bairro:").strip().capitalize()
             if not bairro_cliente.isalpha():
                 tentativas +=1
                 raise ValueError(f"Informe um Bairro válido\nTentativas:{tentativas} de {tentativas_cadastro}")
-                break
+            break
+        except ValueError as erro:
+            print(erro)
 
+    tentativas = 0  
+    while tentativas < tentativas_cadastro:    
+        try:    
             rua_cliente = input("Rua:").strip().capitalize()
             if not rua_cliente.replace(" ","").isalpha():
                 tentativas +=1
                 raise ValueError(f"Informe uma rua válida\nTentativas:{tentativas} de {tentativas_cadastro}")
-                break
-            
+            break
+        except ValueError as erro:
+            print(erro)
+
+    tentativas = 0      
+    while tentativas < tentativas_cadastro:    
+        try:    
             numero_endereco = input("Número:")
             if not numero_endereco.isdigit() or len(numero_endereco) <0:
                 tentativas +=1
                 raise ValueError(f"Informe uma número válido\nTentativas:{tentativas} de {tentativas_cadastro}")
-                break
             numero_endereco = int(numero_endereco)
             break
         except ValueError as erro:
+            print(erro)        
+
+    tentativas = 0
+    while tentativas < tentativas_cadastro:    
+        try:    
+            saldo_cliente = input('Saldo inicial da conta: R$').strip()
+            # Verifica se o usuário não digitou nada (só apertou Enter)
+            if not saldo_cliente:
+                tentativas += 1
+                raise ValueError(f"Saldo não pode estar vazio!\nTentativas: {tentativas} de {tentativas_cadastro}")
+            saldo_cliente = float(saldo_cliente)
+            if saldo_cliente < 0:
+                tentativas += 1
+                raise ValueError(f"Saldo não pode ser negativo!\nTentativas: {tentativas} de {tentativas_cadastro}")
+            time.sleep(3)
+            print('Processando Valor Depositado..')
+            break
+        except ValueError as erro:
             print(erro)
+
     if tentativas == tentativas_cadastro:
         print("Total de tentativas atingido.\nSaindo do programa ....")
     else:
-        cliente_cadastrado = Cliente(nome_cliente,idade_cliente,cpf_cliente,bairro_cliente,rua_cliente,numero_endereco)    
-        return cliente_cadastrado   
-# cadastrar_cliente()
+        cliente_cadastrado = Cliente(nome_cliente,idade_cliente,cpf_cliente,bairro_cliente,rua_cliente,numero_endereco,saldo_cliente)
+        print()  
+        return cliente_cadastrado
 
 def escolher_pedido():
     tentativas = 0
@@ -98,10 +142,11 @@ def escolher_pedido():
                     Pedido.fazer_pedido_bebida(opcao_bebida)
                     break
             elif escolha_bebida in ['NÃO','NAO'] and opcao_comida != '0':
-                    print('Apenas tem um prato e não uma bebida')       
-                    break
+                    opcao_bebida = '0'
+                    Pedido.fazer_pedido_bebida(opcao_bebida)
+                    break   
             elif escolha_bebida in ['NÃO','NAO'] and opcao_comida == '0':
-                    print('Nenhum prato foi selecionado. Retornando ao menu..')
+                    # print('Nenhum prato foi selecionado. Retornando ao menu..')
                     return escolher_pedido()        
             else:
                 print()
@@ -111,5 +156,12 @@ def escolher_pedido():
             print(erro)       
     if tentativas == tentativas_escolha:
         print("Total de tentativas atingido.\nSaindo do programa ....")
-        exit()                    
-escolher_pedido()    
+        exit()
+    print('\n=====Pedidos Escolhidos=====:')
+    Pedido.fazer_pedido_bebida(opcao_bebida)
+    Pedido.fazer_pedido_comida(opcao_comida)
+    print('===============================:')
+    
+if cadastrar_cliente():
+    time.sleep(1)
+    escolher_pedido()    
