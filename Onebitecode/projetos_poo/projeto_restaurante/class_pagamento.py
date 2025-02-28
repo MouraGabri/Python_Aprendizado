@@ -1,8 +1,9 @@
 from class_cliente import Cliente
 class Pagamento:
     
-    def __init__(self,cliente):
+    def __init__(self,cliente,valor_total_pedido):
         self.cliente = cliente # Armazenando a instancia de cliente
+        self.valor_total_pedido = valor_total_pedido
     
     def depositar_saldo(self,novo_deposito_cliente):
         tentativas_cadastro = 3
@@ -10,25 +11,27 @@ class Pagamento:
         while tentativas < tentativas_cadastro:
             try:
                 if novo_deposito_cliente <=0:
-                    deposito_cliente = input('Não é possível depositar esse valor\nInforme um valor para deposito R$:').strip()
-                    deposito_cliente = float(deposito_cliente) 
-                    if deposito_cliente > 0:
-                        deposito_cliente = float(deposito_cliente) 
-                        saldo_atualizado = self.cliente.saldo_conta + deposito_cliente
-                        print(f'Deposito Efetuado com Sucesso. Saldo Atual: {saldo_atualizado:.2f}')
-                        break
-                    else:
-                        tentativas += 1
-                        print(f'Não é possível depositar 0R$. Deposite outro valor.Tentativa:{tentativas} de {tentativas_cadastro}')
-                if not novo_deposito_cliente <=0:
-                    deposito_cliente = input('Informe um valor para deposito R$:').strip()
-                    deposito_cliente = float(deposito_cliente) 
-                    saldo_atualizado = self.cliente.saldo_conta + deposito_cliente
-                    print(f'Deposito Efetuado com Sucesso. Saldo Atual: {saldo_atualizado:.2f}')
-                    break            
+                    novo_deposito_cliente = float(input('Não é possível depositar esse valor\nInforme um valor para deposito R$:').strip())
+                    
+                    if novo_deposito_cliente <=0:
+                        tentativas +=1
+                        print(f'Tentativa: {tentativas} de {tentativas_cadastro}')
+                    continue
+                
+                self.cliente.saldo_conta += novo_deposito_cliente
+                print(f'Deposito Efetuado com Sucesso. Saldo Atual: {self.cliente.saldo_conta:.2f} R$')
+                break            
             except ValueError as erro:
                 print(erro)
-                
-cliente_2 = Cliente("João", 25, "12345678901", "Centro", "Rua A", "101", 100.0)
-pagamento = Pagamento(cliente_2)
-pagamento.depositar_saldo(0)
+    
+    def emitir_nota_fiscal(self,valor_total):
+        print('==========Emitindo Nosta Fiscal==========')
+        print(f'Nome:{self.cliente.nome}')
+        print(f'CPF:{self.cliente.cpf}')
+        print(f'Bairro:{self.cliente.bairro}')
+        print(f'rua:{self.cliente.rua}')
+        print(f'Valor Total da compra:{valor_total}')        
+        
+                    
+
+

@@ -26,5 +26,27 @@ class Cardapio:
         print("===== Cardápio Bebidas =====")
         for chave,valor in Cardapio.dict_bebida.items():
             print(chave,valor,)
-        print("====================================================")    
-
+        print("====================================================")
+    @staticmethod        
+    def valores_comida(chave_comida):
+        dict_comida_valores = {'0': 0,
+        "1":50,
+        "2":60,
+        "3":25,
+        "4":40,
+        "5":37}
+        chave_comida_str = str(chave_comida)
+        valor_comida = dict_comida_valores.get(chave_comida_str,0)
+        return valor_comida
+    @staticmethod
+    def valores_bebida(chave_bebida):    
+        dict_comida_bebida = {'0': 0,
+        "1":5,
+        "2":7,
+        "3":10,
+        "4":27}
+        chave_bebida_str = str(chave_bebida)
+        valor_bebida = dict_comida_bebida.get(chave_bebida_str,0)
+        return valor_bebida
+# valor_comida = Cardapio.valores_bebida(7)  # Chama o método e retorna 60
+# print(valor_comida)  
